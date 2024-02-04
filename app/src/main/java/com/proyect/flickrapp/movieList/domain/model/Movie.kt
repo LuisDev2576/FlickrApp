@@ -16,7 +16,7 @@ data class Movie(
     val isFriend: Int,
     val isFamily: Int,
     val dateFaved: String,
-    val urlC: String,
+    val urlC: String?,
     val heightC: Int,
     val widthC: Int,
 )

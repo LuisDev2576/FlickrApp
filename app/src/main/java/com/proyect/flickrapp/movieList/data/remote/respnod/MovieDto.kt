@@ -11,7 +11,7 @@ data class MovieDto(
     val isFriend: Int,
     val isFamily: Int,
     val date_faved: String,
-    val url_c: String,
+    val url_c: String?,
     val height_c: Int,
     val width_c: Int,
 )
