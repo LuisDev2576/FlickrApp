@@ -26,26 +26,15 @@ class MovieListViewModel @Inject constructor(
 
     init {
         getPopularMovieList(false)
-        getUpcomingMovieList(false)
     }
 
     fun onEvent(event: MovieListUiEvent) {
         when (event) {
-            MovieListUiEvent.Navigate -> {
-                _movieListState.update {
-                    it.copy(
-                        isCurrentPopularScreen = !movieListState.value.isCurrentPopularScreen
-                    )
-                }
+            is MovieListUiEvent.Paginate -> {
+                getPopularMovieList(true)
             }
 
-            is MovieListUiEvent.Paginate -> {
-                if (event.category == Category.POPULAR) {
-                    getPopularMovieList(true)
-                } else if (event.category == Category.UPCOMING) {
-                    getUpcomingMovieList(true)
-                }
-            }
+            else -> {}
         }
     }
 
@@ -74,46 +63,6 @@ class MovieListViewModel @Inject constructor(
                                     popularMovieList = movieListState.value.popularMovieList
                                             + popularList.shuffled(),
                                     popularMovieListPage = movieListState.value.popularMovieListPage + 1
-                                )
-                            }
-                        }
-                    }
-
-                    is Resource.Loading -> {
-                        _movieListState.update {
-                            it.copy(isLoading = result.isLoading)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getUpcomingMovieList(forceFetchFromRemote: Boolean) {
-        viewModelScope.launch {
-            _movieListState.update {
-                it.copy(isLoading = true)
-            }
-
-            movieListRepository.getMovieList(
-                forceFetchFromRemote,
-                Category.UPCOMING,
-                movieListState.value.upcomingMovieListPage
-            ).collectLatest { result ->
-                when (result) {
-                    is Resource.Error -> {
-                        _movieListState.update {
-                            it.copy(isLoading = false)
-                        }
-                    }
-
-                    is Resource.Success -> {
-                        result.data?.let { upcomingList ->
-                            _movieListState.update {
-                                it.copy(
-                                    upcomingMovieList = movieListState.value.upcomingMovieList
-                                            + upcomingList.shuffled(),
-                                    upcomingMovieListPage = movieListState.value.upcomingMovieListPage + 1
                                 )
                             }
                         }
