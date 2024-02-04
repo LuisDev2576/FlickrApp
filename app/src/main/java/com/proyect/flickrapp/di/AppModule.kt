@@ -1,9 +1,9 @@
-package com.proyect.flickrapp.di
+package com.ahmedapps.moviesapp.di
 
 import android.app.Application
 import androidx.room.Room
-import com.proyect.flickrapp.data.local.FlickrDatabase
-import com.proyect.flickrapp.data.remote.FlickrApi
+import com.ahmedapps.moviesapp.movieList.data.local.movie.MovieDatabase
+import com.ahmedapps.moviesapp.movieList.data.remote.MovieApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,21 +31,21 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesMovieApi() : FlickrApi {
+    fun providesMovieApi() : MovieApi {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(FlickrApi.BASE_URL)
+            .baseUrl(MovieApi.BASE_URL)
             .client(client)
             .build()
-            .create(FlickrApi::class.java)
+            .create(MovieApi::class.java)
     }
 
     @Provides
     @Singleton
-    fun providesMovieDatabase(app: Application): FlickrDatabase {
+    fun providesMovieDatabase(app: Application): MovieDatabase {
         return Room.databaseBuilder(
             app,
-            FlickrDatabase::class.java,
+            MovieDatabase::class.java,
             "moviedb.db"
         ).build()
     }
