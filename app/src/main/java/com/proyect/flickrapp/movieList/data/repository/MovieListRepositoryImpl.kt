@@ -29,7 +29,7 @@ class MovieListRepositoryImpl @Inject constructor(
 
 
             val movieListFromApi = try {
-                movieApi.getMoviesList(page)
+                movieApi.getMoviesList(page = page)
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error(message = "Error loading movies"))
@@ -44,7 +44,7 @@ class MovieListRepositoryImpl @Inject constructor(
                 return@flow
             }
 
-            val movieEntities = movieListFromApi.results.let {
+            val movieEntities = movieListFromApi.photos.photo.let {
                 it.map { movieDto ->
                     movieDto
                 }

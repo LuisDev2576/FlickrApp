@@ -56,7 +56,8 @@ fun MovieItem(
 ) {
     val imageState = rememberAsyncImagePainter(
         model = ImageRequest.Builder(LocalContext.current)
-            .data(MovieApi.IMAGE_BASE_URL + movie.backdrop_path)
+            //.data(MovieApi.IMAGE_BASE_URL + movie.backdrop_path)
+            .data(movie.urlC)
             .size(Size.ORIGINAL)
             .build()
     ).state
@@ -127,24 +128,7 @@ fun MovieItem(
             maxLines = 1
         )
 
-        Row (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, bottom = 12.dp, top = 4.dp)
-        ) {
-            RatingBar(
-                starsModifier = Modifier.size(18.dp),
-                rating = movie.vote_average / 2
-            )
 
-            Text(
-                modifier = Modifier.padding(start = 4.dp),
-                text = movie.vote_average.toString().take(3),
-                color = Color.LightGray,
-                fontSize = 14.sp,
-                maxLines = 1,
-            )
-        }
     }
 }
 
