@@ -80,9 +80,7 @@ fun MovieItem(
                     )
                 )
             )
-            .clickable {
-                navHostController.navigate(Screen.Details.rout + "/${movie.id}")
-            }
+            .clickable {}
     ) {
         if (imageState is AsyncImagePainter.State.Error) {
             Box(

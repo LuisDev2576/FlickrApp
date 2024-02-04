@@ -14,8 +14,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.ahmedapps.moviesapp.details.peresntation.DetailsScreen
 import com.ahmedapps.moviesapp.movieList.util.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.proyect.flickrapp.ui.theme.FlickrAppTheme
@@ -27,7 +25,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FlickrAppTheme {
-                SetBarColor(color = MaterialTheme.colorScheme.inverseOnSurface)
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -44,26 +41,10 @@ class MainActivity : ComponentActivity() {
                             HomeScreen(navController)
                         }
 
-                        composable(
-                            Screen.Details.rout + "/{movieId}",
-                            arguments = listOf(
-                                navArgument("movieId") { type = NavType.IntType }
-                            )
-                        ) { backStackEntry ->
-                            DetailsScreen()
-                        }
                     }
 
                 }
             }
-        }
-    }
-
-    @Composable
-    private fun SetBarColor(color: Color) {
-        val systemUiController = rememberSystemUiController()
-        LaunchedEffect(key1 = color) {
-            systemUiController.setSystemBarsColor(color)
         }
     }
 }

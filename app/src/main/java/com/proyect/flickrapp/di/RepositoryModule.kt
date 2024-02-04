@@ -1,6 +1,6 @@
 package com.ahmedapps.moviesapp.di
 
-import com.ahmedapps.moviesapp.movieList.data.repository.MovieListRepositoryImpl
+import com.proyect.flickrapp.movieList.data.repository.MovieListRepositoryImpl
 import com.ahmedapps.moviesapp.movieList.domain.repository.MovieListRepository
 import dagger.Binds
 import dagger.Module

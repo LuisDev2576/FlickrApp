@@ -35,7 +35,6 @@ import androidx.navigation.compose.rememberNavController
 import com.ahmedapps.moviesapp.movieList.presentaion.MovieListUiEvent
 import com.ahmedapps.moviesapp.movieList.presentaion.MovieListViewModel
 import com.ahmedapps.moviesapp.movieList.presentaion.PopularMoviesScreen
-import com.ahmedapps.moviesapp.movieList.presentaion.UpcomingMoviesScreen
 
 import com.ahmedapps.moviesapp.movieList.util.Screen
 import com.proyect.flickrapp.R
@@ -52,26 +51,8 @@ fun HomeScreen(navController: NavHostController) {
     val bottomNavController = rememberNavController()
 
     Scaffold(bottomBar = {
-        BottomNavigationBar(
-            bottomNavController = bottomNavController, onEvent = movieListViewModel::onEvent
-        )
-    }, topBar = {
-        TopAppBar(
-            title = {
-                Text(
-                    text = if (movieListState.isCurrentPopularScreen)
-                        stringResource(R.string.popular_movies)
-                    else
-                        stringResource(R.string.upcoming_movies),
-                    fontSize = 20.sp
-                )
-            },
-            modifier = Modifier.shadow(2.dp),
-            colors = TopAppBarDefaults.smallTopAppBarColors(
-                MaterialTheme.colorScheme.inverseOnSurface
-            )
-        )
-    }) {
+
+    }, topBar = {}) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -88,80 +69,11 @@ fun HomeScreen(navController: NavHostController) {
                         onEvent = movieListViewModel::onEvent
                     )
                 }
-                composable(Screen.UpcomingMovieList.rout) {
-                    UpcomingMoviesScreen(
-                        navController = navController,
-                        movieListState = movieListState,
-                        onEvent = movieListViewModel::onEvent
-                    )
-                }
             }
         }
     }
 
 }
-
-
-@Composable
-fun BottomNavigationBar(
-    bottomNavController: NavHostController, onEvent: (MovieListUiEvent) -> Unit
-) {
-
-    val items = listOf(
-        BottomItem(
-            title = stringResource(R.string.popular),
-            icon = Icons.Rounded.Movie
-        ), BottomItem(
-            title = stringResource(R.string.upcoming),
-            icon = Icons.Rounded.Upcoming
-        )
-    )
-
-    val selected = rememberSaveable {
-        mutableIntStateOf(0)
-    }
-
-    NavigationBar {
-        Row(
-            modifier = Modifier.background(MaterialTheme.colorScheme.inverseOnSurface)
-        ) {
-            items.forEachIndexed { index, bottomItem ->
-                NavigationBarItem(selected = selected.intValue == index, onClick = {
-                    selected.intValue = index
-                    when (selected.intValue) {
-                        0 -> {
-                            onEvent(MovieListUiEvent.Navigate)
-                            bottomNavController.popBackStack()
-                            bottomNavController.navigate(Screen.PopularMovieList.rout)
-                        }
-
-                        1 -> {
-                            onEvent(MovieListUiEvent.Navigate)
-                            bottomNavController.popBackStack()
-                            bottomNavController.navigate(Screen.UpcomingMovieList.rout)
-                        }
-                    }
-                }, icon = {
-                    Icon(
-                        imageVector = bottomItem.icon,
-                        contentDescription = bottomItem.title,
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
-                }, label = {
-                    Text(
-                        text = bottomItem.title, color = MaterialTheme.colorScheme.onBackground
-                    )
-                })
-            }
-        }
-    }
-
-}
-
-data class BottomItem(
-    val title: String, val icon: ImageVector
-)
-
 
 
 
