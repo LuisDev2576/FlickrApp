@@ -3,6 +3,7 @@ package com.proyect.flickrapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -10,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.proyect.flickrapp.presentation.FlickrViewModel
 import com.proyect.flickrapp.ui.theme.FlickrAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,25 +30,20 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    val viewModel = hiltViewModel<FlickrViewModel>()
+                    val flicks = viewModel.flickrs.value
+                    
+                    flicks?.let {
+                        Column {
+                            Text(text = it.page.toString())
+                            Text(text = it.perPage.toString())
+                            Text(text = it.pages.toString())
+                            Text(text = it.total.toString())
+                        }
+                    }
+                    
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    FlickrAppTheme {
-        Greeting("Android")
     }
 }
