@@ -10,17 +10,16 @@ import retrofit2.http.Query
  */
 interface MovieApi {
 
-    @GET("movie/{category}")
+    @GET("services/rest/?method=flickr.favorites.getPublicList&api_key=40bd373bb6a19a078023b06af055d03c&user_id=66956608%40N06&extras=url_c")
     suspend fun getMoviesList(
-        @Path("category") category: String,
+        @Query("per_page") perPage: Int = 10,
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String = API_KEY
+        @Query("format") format: String = "json",
+        @Query("nojsoncallback") noJsonCallBack: Int = 1,
     ): MovieListDto
 
     companion object {
-        const val BASE_URL = "https://api.themoviedb.org/3/"
-        const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
-        const val API_KEY = "b308ec5cb39aac074477f4d1754bf149"
+        const val BASE_URL = "https://www.flickr.com/"
     }
 
 }

@@ -8,24 +8,21 @@ import androidx.room.PrimaryKey
  */
 @Entity
 data class MovieEntity(
-    val adult: Boolean,
-    val backdrop_path: String,
-    val genre_ids: String,
-    val original_language: String,
-    val original_title: String,
-    val overview: String,
-    val popularity: Double,
-    val poster_path: String,
-    val release_date: String,
-    val title: String,
-    val video: Boolean,
-    val vote_average: Double,
-    val vote_count: Int,
 
     @PrimaryKey
-    val id: Int,
-
-    val category: String,
+    val id: String,
+    val owner: String,
+    val secret: String,
+    val server: String,
+    val farm: Int,
+    val title: String,
+    val isPublic: Int,
+    val isFriend: Int,
+    val isFamily: Int,
+    val date_faved: String,
+    val url_c: String,
+    val height_c: Int,
+    val width_c: Int,
 )
 
 

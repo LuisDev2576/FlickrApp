@@ -46,7 +46,6 @@ class MovieListViewModel @Inject constructor(
 
             movieListRepository.getMovieList(
                 forceFetchFromRemote,
-                Category.POPULAR,
                 movieListState.value.popularMovieListPage
             ).collectLatest { result ->
                 when (result) {

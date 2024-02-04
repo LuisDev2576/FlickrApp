@@ -15,7 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.ahmedapps.moviesapp.details.peresntation.DetailsScreen
 import com.ahmedapps.moviesapp.movieList.util.Screen
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.proyect.flickrapp.ui.theme.FlickrAppTheme
@@ -42,15 +41,6 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(Screen.Home.rout) {
                             HomeScreen(navController)
-                        }
-
-                        composable(
-                            Screen.Details.rout + "/{movieId}",
-                            arguments = listOf(
-                                navArgument("movieId") { type = NavType.IntType }
-                            )
-                        ) { backStackEntry ->
-                            DetailsScreen()
                         }
                     }
 
