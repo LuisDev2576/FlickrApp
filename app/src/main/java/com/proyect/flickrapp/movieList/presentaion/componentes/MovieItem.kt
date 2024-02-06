@@ -1,5 +1,7 @@
 package com.ahmedapps.moviesapp.movieList.presentaion.componentes
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -37,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImagePainter
+import coil.compose.ImagePainter
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.size.Size
@@ -45,6 +50,7 @@ import com.ahmedapps.moviesapp.movieList.domain.model.Movie
 import com.ahmedapps.moviesapp.movieList.util.RatingBar
 import com.ahmedapps.moviesapp.movieList.util.Screen
 import com.ahmedapps.moviesapp.movieList.util.getAverageColor
+import kotlinx.coroutines.delay
 
 /**
  * @author Android Devs Academy (Ahmed Guedmioui)
@@ -68,7 +74,7 @@ fun MovieItem(
 
     Column(
         modifier = Modifier
-            .wrapContentHeight()
+            .animateContentSize(animationSpec = tween(500))
             .width(200.dp)
             .padding(8.dp)
             .clip(RoundedCornerShape(28.dp))
@@ -82,6 +88,24 @@ fun MovieItem(
             )
     ) {
         if (imageState is AsyncImagePainter.State.Error) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(6.dp)
+                    .clip(RoundedCornerShape(22.dp))
+                    .background(MaterialTheme.colorScheme.primaryContainer),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    modifier = Modifier.size(70.dp),
+                    imageVector = Icons.Rounded.ImageNotSupported,
+                    contentDescription = movie.title
+                )
+
+            }
+        }
+
+        if (imageState is AsyncImagePainter.State.Loading) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -100,6 +124,7 @@ fun MovieItem(
         }
 
         if (imageState is AsyncImagePainter.State.Success) {
+
             dominantColor = getAverageColor(
                 imageBitmap = imageState.result.drawable.toBitmap().asImageBitmap()
             )
@@ -108,19 +133,19 @@ fun MovieItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(6.dp)
-                    .height(250.dp)
                     .clip(RoundedCornerShape(22.dp)),
                 painter = imageState.painter,
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop
             )
+
         }
 
         Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             modifier = Modifier.padding(start = 16.dp, end = 8.dp),
-            text = movie.title,
+            text = movie.heightC.toString(),
             color = Color.White,
             fontSize = 15.sp,
             maxLines = 1
@@ -128,14 +153,6 @@ fun MovieItem(
 
     }
 }
-
-
-
-
-
-
-
-
 
 
 

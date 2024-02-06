@@ -19,6 +19,7 @@ data class Movie(
     val urlC: String?,
     val heightC: Int,
     val widthC: Int,
+    val page: Int,
 )
 
 

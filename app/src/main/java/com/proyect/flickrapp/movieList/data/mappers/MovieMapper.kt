@@ -23,7 +23,8 @@ fun MovieDto.toMovieEntity(): MovieEntity {
         date_faved = date_faved,
         url_c = url_c,
         height_c = height_c,
-        width_c = width_c
+        width_c = width_c,
+        page = page
     )
 }
 
@@ -41,7 +42,8 @@ fun MovieEntity.toMovie(): Movie {
         dateFaved = date_faved,
         urlC = url_c,
         heightC = height_c,
-        widthC = width_c
+        widthC = width_c,
+        page = page
     )
 }
 

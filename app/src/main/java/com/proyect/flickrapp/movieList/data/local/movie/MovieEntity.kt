@@ -23,6 +23,7 @@ data class MovieEntity(
     val url_c: String?,
     val height_c: Int,
     val width_c: Int,
+    val page: Int,
 )
 
 

@@ -6,6 +6,7 @@ import com.ahmedapps.moviesapp.movieList.domain.repository.MovieListRepository
 import com.ahmedapps.moviesapp.movieList.util.Category
 import com.ahmedapps.moviesapp.movieList.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest

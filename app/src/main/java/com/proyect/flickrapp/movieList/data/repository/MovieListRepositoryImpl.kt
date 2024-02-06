@@ -7,6 +7,7 @@ import com.ahmedapps.moviesapp.movieList.data.remote.MovieApi
 import com.ahmedapps.moviesapp.movieList.domain.model.Movie
 import com.ahmedapps.moviesapp.movieList.domain.repository.MovieListRepository
 import com.ahmedapps.moviesapp.movieList.util.Resource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okio.IOException
@@ -29,6 +30,7 @@ class MovieListRepositoryImpl @Inject constructor(
 
             emit(Resource.Loading(true))
 
+            delay(5000)
             val localMovieList = movieDatabase.movieDao.getMovieListByCategory()
 
             val shouldLoadLocalMovie = localMovieList.isNotEmpty() && !forceFetchFromRemote
@@ -37,7 +39,9 @@ class MovieListRepositoryImpl @Inject constructor(
                 emit(Resource.Success(
                     data = localMovieList.map { movieEntity ->
                         movieEntity.toMovie()
-                    }
+                    }.sortedWith(compareBy({ it.page },
+                        //{ it.id }
+                    ))
                 ))
 
                 emit(Resource.Loading(false))
@@ -62,14 +66,16 @@ class MovieListRepositoryImpl @Inject constructor(
 
             val movieEntities = movieListFromApi.photos.photo.let {
                 it.map { movieDto ->
-                    movieDto.toMovieEntity()
+                    movieDto.copy(page = movieListFromApi.photos.page).toMovieEntity()
                 }
             }
 
             movieDatabase.movieDao.upsertMovieList(movieEntities)
 
             emit(Resource.Success(
-                movieEntities.map { it.toMovie() }
+                movieEntities.map { it.toMovie() }.sortedWith(compareBy({ it.page },
+                    //{ it.id }
+                ))
             ))
             emit(Resource.Loading(false))
 
