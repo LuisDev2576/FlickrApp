@@ -19,7 +19,7 @@ class PhotoListRepositoryImpl @Inject constructor(
     private val photosDatabase: PhotosDatabase
 ) : PhotoListRepository {
 
-    override suspend fun getFavoritePhotosList(
+    override suspend fun getPopularPhotosList(
         forceFetchFromRemote: Boolean,
         page: Int
     ): Flow<Resource<List<Photo>>> {
@@ -28,14 +28,14 @@ class PhotoListRepositoryImpl @Inject constructor(
             emit(Resource.Loading(true))
 
             delay(5000)
-            val localPhotoList = photosDatabase.photoDao.getFavoritePhotos()
+            val localPhotoList = photosDatabase.photoDao.getPopularPhotos()
 
             val shouldLoadLocalPhoto = localPhotoList.isNotEmpty() && !forceFetchFromRemote
 
             if (shouldLoadLocalPhoto) {
                 emit(Resource.Success(
                     data = localPhotoList.map { photoEntity ->
-                        photoEntity.toPhoto()
+                        photoEntity.toPhoto(origen = "Local")
                     }.sortedWith(compareBy({ it.page }, { it.id }
                     ))
                 ))
@@ -69,7 +69,7 @@ class PhotoListRepositoryImpl @Inject constructor(
             photosDatabase.photoDao.upsertPhotoList(photoEntities)
 
             emit(Resource.Success(
-                photoEntities.map { it.toPhoto() }.sortedWith(compareBy({ it.page }, { it.id }
+                photoEntities.map { it.toPhoto(origen = "Remote") }.sortedWith(compareBy({ it.page }, { it.id }
                 ))
             ))
             emit(Resource.Loading(false))

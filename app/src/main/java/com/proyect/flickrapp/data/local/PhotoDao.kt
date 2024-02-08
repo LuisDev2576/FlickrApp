@@ -10,5 +10,5 @@ interface PhotoDao {
     suspend fun upsertPhotoList(photoList: List<PhotoEntity>)
 
     @Query("SELECT * FROM PhotoEntity")
-    suspend fun getFavoritePhotos(): List<PhotoEntity>
+    suspend fun getPopularPhotos(): List<PhotoEntity>
 }

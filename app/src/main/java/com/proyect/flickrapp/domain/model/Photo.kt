@@ -15,6 +15,7 @@ data class Photo(
     val heightC: Int,
     val widthC: Int,
     val page: Int,
+    val origen: String
 )
 
 

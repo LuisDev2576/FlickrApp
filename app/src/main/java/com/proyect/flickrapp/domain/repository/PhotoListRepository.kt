@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PhotoListRepository {
 
-    suspend fun getFavoritePhotosList(
+    suspend fun getPopularPhotosList(
         forceFetchFromRemote: Boolean,
         page: Int
     ): Flow<Resource<List<Photo>>>

@@ -23,7 +23,7 @@ fun PhotoDto.toPhotoEntity(): PhotoEntity {
     )
 }
 
-fun PhotoEntity.toPhoto(): Photo {
+fun PhotoEntity.toPhoto(origen: String): Photo {
     return Photo(
         id = id,
         owner = owner,
@@ -38,6 +38,7 @@ fun PhotoEntity.toPhoto(): Photo {
         urlC = url_c,
         heightC = height_c,
         widthC = width_c,
-        page = page
+        page = page,
+        origen = origen
     )
 }
